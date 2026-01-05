@@ -70,7 +70,7 @@ The diagram above illustrates the main actors and use cases in the DatumFlow sys
     - New price
     - Discount amount
     - Discount percentage
-    - Profit margin (if cost available)
+    - Profit margin (Display: "Not available". Note: This is outside the primary scope for this project)
 5. Staff reviews preview and clicks "Confirm"
 6. System validates input
 7. System updates product price

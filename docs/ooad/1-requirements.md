@@ -54,7 +54,9 @@ The system shall allow staff to manually adjust product prices with real-time pr
     -   New price in SEK
     -   Discount amount in SEK
     -   Discount percentage
-    -   Profit margin (if cost data available)
+    -   Profit margin:
+        -   Display "Margin data not available"
+        -   Note: DatumFlow focuses on expiry date management and price suggestions, not replacing existing margin calculation systems
 -   "Preview" mode before confirmation
 -   "Confirm" button to apply price change
 -   "Cancel" button to discard changes
