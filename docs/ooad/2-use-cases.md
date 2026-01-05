@@ -1,6 +1,6 @@
 ## Use Case Diagram
 
-![Use Case Diagram](../ooad/4-uml-diagrams/use-case-diagram.png)
+![Use Case Diagram](../ooad/3-uml-diagrams/use-case-diagram.png)
 
 The diagram above illustrates the main actors and use cases in the DatumFlow system.
 
