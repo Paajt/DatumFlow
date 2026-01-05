@@ -10,9 +10,9 @@ The system shall automatically calculate remaining days until product expiry.
 
 The system shall generate price suggestions based on remaining shelf life:
 
--   3-4 days: 85% (-15% discount)
+-   4-5 days: 85% (-15% discount)
 -   2-3 days: 75% (-25% discount)
--   0-2 days: 50% (-50% discount)
+-   0-1 days: 50% (-50% discount)
 
 ### 3: Product Display with Sorting
 
@@ -22,10 +22,10 @@ The system shall display products sorted by urgency (expiry date).
 
 The system shall color-code products based on urgency:
 
--   Green: >4 days
--   Yellow: 3-4 days
+-   Green: >5 days
+-   Yellow: 4-5 days
 -   Orange: 2-3 days
--   Red: 0-2 days
+-   Red: 0-1 days
 
 ### 5: Price History Tracking
 
@@ -88,7 +88,7 @@ The interface shall be intuitive for store staff with minimal training.
 
 ### 4: Scalability
 
-The system shall handle 10,000+ products without performance degradation.
+The system shall handle 1000+ products without performance degradation.
 
 ### 5: Data Integrity
 
