@@ -4,6 +4,8 @@ import dotenv from 'dotenv';
 import { connectDB } from './config/database.js';
 import Product from './models/Product.js';
 import PricingAlgorithm from './services/PricingAlgorithm.js';
+import { seedRealProducts } from './utils/productSeeder.js';
+import productsRouter from './routes/products.js';
 
 dotenv.config();
 
@@ -13,7 +15,8 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-connectDB();
+// Routes
+app.use('/api/products', productsRouter);
 
 // Test Route
 app.get('/api/test', (req, res) => {
@@ -63,14 +66,30 @@ app.get('/api/test/product', async (req, res) => {
 	}
 });
 
-// MongoDB connection
-// mongoose.connect(process.env.MONGODB_URI)
-//   .then(() => console.log('MongoDB connected'))
-//   .catch(err => console.error('MongoDB connection error:', err));
+// Seed endpoint - Use real API data
+app.post('/api/seed/real', async (req, res) => {
+	try {
+		const result = await seedRealProducts();
+		res.json(result);
+	} catch (error) {
+		res.status(500).json({ error: error.message });
+	}
+});
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-	console.log(`Server running on port ${PORT}`);
-	console.log(`Test endpoint: http://localhost:${PORT}/api/test`);
-	console.log(`Test Product: http://localhost:${PORT}/api/test/product`);
-});
+
+connectDB()
+	.then(() => {
+		app.listen(PORT, () => {
+			console.log(`Server running on port ${PORT}`);
+			console.log(`Test endpoint: http://localhost:${PORT}/api/test`);
+			console.log(
+				`Test Product: http://localhost:${PORT}/api/test/product`
+			);
+			console.log(`Get products: http://localhost:${PORT}/api/products`);
+		});
+	})
+	.catch((error) => {
+		console.error('Failed to connect to MongoDB:', error);
+		process.exit(1);
+	});
