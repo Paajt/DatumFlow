@@ -52,8 +52,28 @@ function App() {
   return (
     <div className="min-h-screen bg-gray-50 p-8">
       <h1 className="text 3-xl font-bold text-gray-900 mb-4">DatumFlow</h1>
+      <div className="bg-white rounded-lg shadow p-6 mb-6">
+        <p className="text-lg font-semibold">Antal produkter: {products.length}</p>
+      </div>
+
+      {/* Product list */}
       <div className="bg-white rounded-lg shadow p-6">
-        <p>Antal produkter: {products.length}</p>
+        <h2 className="text-xl font-semibold mb-4">Produkter</h2>
+        <div className="space-y-2">
+          {products.slice(0, 10).map((product) => (
+            <div key={product.id} className="p-3 border rounded hover:bg-gray-50">
+              <div className="font-medium">{product.name}</div>
+              <div className="text-sm text-gray-600">
+                {product.supplier} - {product.category}
+              </div>
+            </div>
+          ))}
+        </div>
+        {products.length > 10 && (
+          <p className="text-sm text-gray-500 mt-4">
+            Visar 10 av {products.length} produkter
+          </p>
+        )}
       </div>
     </div>
   );
