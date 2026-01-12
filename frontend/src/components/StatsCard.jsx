@@ -1,16 +1,17 @@
 const StatsCard = ({ urgency, count, label }) => {
     const colors = {
-        red: 'text-red-600',
-        orange: 'text-orange-600',
-        yellow: 'text-yellow-600',
-        green: 'text-green-600',
+        red: 'bg-red-400 text-white',
+        orange: 'bg-yellow-600 text-white',
+        yellow: 'bg-yellow-300 text-white',
+        green: 'bg-green-600 text-white',
     };
 
     return (
-        <div>
-            <p className="text-sm text-gray-600">{label}</p>
-            <p className={`text-3xl font-bold ${colors[urgency]}`}>
+        <div className={`${colors[urgency]} rounded-lg drop-shadow-2xl p-6 text-center`}>
+            <p className="text-lg drop-shadow-lg font-medium mb-2">{label}</p>
+            <p className="text-6xl drop-shadow-lg font-bold">
                 {count}
+                <span className="text-2xl">st</span>
             </p>
         </div>
     );
