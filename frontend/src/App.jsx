@@ -9,6 +9,7 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [activeTab, setActiveTab] = useState('start');
+  const [products, setProducts] = useState([]);
 
   useEffect(() => {
     fetchProducts();
@@ -20,6 +21,7 @@ function App() {
       setError(null);
       const data = await getProducts();
       setStats(data.stats);
+      setProducts(data.products)
     } catch (error) {
       setError('Kunde inte hämta produkter: ' + error.message);
     } finally {
@@ -52,6 +54,8 @@ function App() {
       </div>
     );
   }
+
+  const urgentProducts = products.filter((p) => p.pricing.urgencyLevel === 'red');
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -139,9 +143,18 @@ function App() {
                     <h3 className="text-lg font-semibold mb-4">
                       Brådskande, åtgärder behövs (0-1 dag)
                     </h3>
-                    <p className="text-gray-500">Produkter kommer här...</p>
-                    <p className="text-sm text-gray-500 mt-4 text-center">
-                      Sida 1 av 1
+                    {/* Show urgent products here */}
+                    <div className='space-y-4'>
+                      {urgentProducts.slice(0, 2).map((product) => (
+                        <div key={product._id} className="bg-white p-4 rounded">
+                          <p className='font-semibold'>{product.name}</p>
+                          <p className='text-sm text-gray-600'>{product.supplier}</p>
+                        </div>
+                      ))}
+                    </div>
+
+                    <p className='text-sm text-gray-500 mt-4 text-center'>
+                      Sida 1 av {Math.ceil(urgentProducts.length / 2)}
                     </p>
                   </div>
 
