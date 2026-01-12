@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { getProducts } from "./services/api";
+import StatsCard from "./components/StatsCard";
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -57,22 +58,26 @@ function App() {
       <div className="bg-white rounded-lg shadow p-6 mb-6">
         <h2 className="text-xl font-semibold mb-4">Översikt</h2>
         <div className="grid grid-cols-4 gap-4">
-          <div>
-            <p className="text-sm text-gray-600">Brådskande (0-1 dagar)</p>
-            <p className="text-3xl font-bold text-red-600">{stats?.red || 0}</p>
-          </div>
-          <div>
-            <p className="text-sm text-gray-600">Varning (2-3 dagar)</p>
-            <p className="text-3xl font-bold text-orange-600">{stats?.orange || 0}</p>
-          </div>
-          <div>
-            <p className="text-sm text-gray-600">Snart (4-5 dagar)</p>
-            <p className="text-2xl font-bold text-yellow-600">{stats?.yellow || 0}</p>
-          </div>
-          <div>
-            <p className="text-sm text-gray-600">OK</p>
-            <p className="text-2xl font-bold text-green-600">{stats?.green || 0}</p>
-          </div>
+          <StatsCard
+            urgency="red"
+            count={stats?.red || 0}
+            label="Brådskande (0-1 dagar)"
+          />
+          <StatsCard
+            urgency="orange"
+            count={stats?.orange || 0}
+            label="Varning (2-3 dagar)"
+          />
+          <StatsCard
+            urgency="yellow"
+            count={stats?.yellow || 0}
+            label="Snart (4-5 dagar)"
+          />
+          <StatsCard
+            urgency="green"
+            count={stats?.green || 0}
+            label="OK (>5 dagar)"
+          />
         </div>
       </div>
     </div>
