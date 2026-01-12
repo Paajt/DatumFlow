@@ -2,9 +2,9 @@ import { useEffect, useState } from "react";
 import { getProducts } from "./services/api";
 
 function App() {
-  const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [stats, setStats] = useState(null);
 
   useEffect(() => {
     fetchProducts();
@@ -15,7 +15,7 @@ function App() {
       setLoading(true);
       setError(null);
       const data = await getProducts();
-      setProducts(data.products);
+      setStats(data.stats);
     } catch (error) {
       setError('Kunde inte hämta produkter: ' + error.message);
     } finally {
@@ -51,29 +51,29 @@ function App() {
 
   return (
     <div className="min-h-screen bg-gray-50 p-8">
-      <h1 className="text 3-xl font-bold text-gray-900 mb-4">DatumFlow</h1>
-      <div className="bg-white rounded-lg shadow p-6 mb-6">
-        <p className="text-lg font-semibold">Antal produkter: {products.length}</p>
-      </div>
+      <h1 className="text-3xl font-bold text-gray-900 mb-6">DatumFlow</h1>
 
-      {/* Product list */}
-      <div className="bg-white rounded-lg shadow p-6">
-        <h2 className="text-xl font-semibold mb-4">Produkter</h2>
-        <div className="space-y-2">
-          {products.slice(0, 10).map((product) => (
-            <div key={product.id} className="p-3 border rounded hover:bg-gray-50">
-              <div className="font-medium">{product.name}</div>
-              <div className="text-sm text-gray-600">
-                {product.supplier} - {product.category}
-              </div>
-            </div>
-          ))}
+      {/* Stats Overview */}
+      <div className="bg-white rounded-lg shadow p-6 mb-6">
+        <h2 className="text-xl font-semibold mb-4">Översikt</h2>
+        <div className="grid grid-cols-4 gap-4">
+          <div>
+            <p className="text-sm text-gray-600">Brådskande (0-1 dagar)</p>
+            <p className="text-3xl font-bold text-red-600">{stats?.red || 0}</p>
+          </div>
+          <div>
+            <p className="text-sm text-gray-600">Varning (2-3 dagar)</p>
+            <p className="text-3xl font-bold text-orange-600">{stats?.orange || 0}</p>
+          </div>
+          <div>
+            <p className="text-sm text-gray-600">Snart (4-5 dagar)</p>
+            <p className="text-2xl font-bold text-yellow-600">{stats?.yellow || 0}</p>
+          </div>
+          <div>
+            <p className="text-sm text-gray-600">OK</p>
+            <p className="text-2xl font-bold text-green-600">{stats?.green || 0}</p>
+          </div>
         </div>
-        {products.length > 10 && (
-          <p className="text-sm text-gray-500 mt-4">
-            Visar 10 av {products.length} produkter
-          </p>
-        )}
       </div>
     </div>
   );
