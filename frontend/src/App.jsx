@@ -1,11 +1,14 @@
-import { useEffect, useState } from "react";
-import { getProducts } from "./services/api";
-import StatsCard from "./components/StatsCard";
+import { useState, useEffect } from 'react';
+import { getProducts } from './services/api';
+import Header from './components/Header';
+import StatsCard from './components/StatsCard';
+import datumFlowLogo from './assets/images/datumflow-logo.svg';
 
 function App() {
+  const [stats, setStats] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [stats, setStats] = useState(null);
+  const [activeTab, setActiveTab] = useState('start');
 
   useEffect(() => {
     fetchProducts();
@@ -51,36 +54,126 @@ function App() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 p-8">
-      <h1 className="text-3xl font-bold text-gray-900 mb-6">DatumFlow</h1>
+    <div className="min-h-screen bg-gray-50">
+      {/* Header - ICA Style */}
+      <Header />
 
-      {/* Stats Overview */}
-      <div className="bg-white rounded-lg shadow p-6 mb-6">
-        <h2 className="text-xl font-semibold mb-4">Översikt</h2>
-        <div className="grid grid-cols-4 gap-4">
-          <StatsCard
-            urgency="red"
-            count={stats?.red || 0}
-            label="Brådskande (0-1 dagar)"
-          />
-          <StatsCard
-            urgency="orange"
-            count={stats?.orange || 0}
-            label="Varning (2-3 dagar)"
-          />
-          <StatsCard
-            urgency="yellow"
-            count={stats?.yellow || 0}
-            label="Snart (4-5 dagar)"
-          />
-          <StatsCard
-            urgency="green"
-            count={stats?.green || 0}
-            label="OK (>5 dagar)"
-          />
+      {/* DatumFlow Section */}
+      < div className="max-w-7xl mx-auto p-4" >
+        <div className="flex items-center gap-2 mb-4">
+
+          <button className="bg-green-700 text-white px-6 py-3 rounded-full font-semibold flex items-center gap-2">
+            <img src={datumFlowLogo} alt="DatumFlow logo" className='w-8 h-7' />
+            DatumFlow
+          </button>
+          <button className="bg-gray-400 text-white w-10 h-10 rounded-full">
+            ?
+          </button>
         </div>
-      </div>
-    </div>
+
+        {/* Main Content Container */}
+        <div className="bg-white border-4 border-green-700 rounded-4xl">
+          {/* Navigation Tabs */}
+          <div className="border-b-2 border-gray-200 flex justify-center">
+            <button
+              onClick={() => setActiveTab('start')}
+              className={`px-8 py-4 font-semibold ${activeTab === 'start'
+                ? 'border-b-4 border-black'
+                : 'text-gray-600'
+                }`}
+            >
+              Start
+            </button>
+            <button
+              onClick={() => setActiveTab('produkter')}
+              className={`px-8 py-4 font-semibold ${activeTab === 'produkter'
+                ? 'border-b-4 border-black'
+                : 'text-gray-600'
+                }`}
+            >
+              Produkter
+            </button>
+            <button
+              onClick={() => setActiveTab('statistik')}
+              className={`px-8 py-4 font-semibold ${activeTab === 'statistik'
+                ? 'border-b-4 border-black'
+                : 'text-gray-600'
+                }`}
+            >
+              Statistik
+            </button>
+          </div>
+
+          {/* Content Area */}
+          <div className="p-6">
+            {activeTab === 'start' && (
+              <>
+                {/* Stats Cards */}
+                <div className="grid grid-cols-4 gap-4 mb-8">
+                  <StatsCard
+                    urgency="red"
+                    count={stats?.red || 0}
+                    label="Brådskande"
+                  />
+                  <StatsCard
+                    urgency="orange"
+                    count={stats?.orange || 0}
+                    label="Varning"
+                  />
+                  <StatsCard
+                    urgency="yellow"
+                    count={stats?.yellow || 0}
+                    label="Snart"
+                  />
+                  <StatsCard
+                    urgency="green"
+                    count={stats?.green || 0}
+                    label="OK"
+                  />
+                </div>
+
+                {/* Two Column Layout for Product Lists */}
+                <div className="grid grid-cols-2 gap-6">
+                  {/* Left: Brådskande produkter */}
+                  <div className="bg-gray-100 rounded-lg p-4">
+                    <h3 className="text-lg font-semibold mb-4">
+                      Brådskande, åtgärder behövs (0-1 dag)
+                    </h3>
+                    <p className="text-gray-500">Produkter kommer här...</p>
+                    <p className="text-sm text-gray-500 mt-4 text-center">
+                      Sida 1 av 1
+                    </p>
+                  </div>
+
+                  {/* Right: Produkter som åtgärdas ofta */}
+                  <div className="bg-purple-100 rounded-lg p-4">
+                    <h3 className="text-lg font-semibold mb-4">
+                      Produkter som åtgärdas ofta
+                    </h3>
+                    <p className="text-gray-500">Produkter kommer här...</p>
+                    <p className="text-sm text-gray-500 mt-4 text-center">
+                      Sida 1 av 1
+                    </p>
+                  </div>
+                </div>
+              </>
+            )}
+
+            {activeTab === 'produkter' && (
+              <div className="text-center py-12">
+                <p className="text-gray-500">Produktlista kommer här...</p>
+              </div>
+            )}
+
+            {activeTab === 'statistik' && (
+              <div className="text-center py-12">
+                <p className="text-gray-500">Statistik kommer här...</p>
+              </div>
+            )}
+          </div>
+        </div>
+      </div >
+    </div >
   );
 }
 
