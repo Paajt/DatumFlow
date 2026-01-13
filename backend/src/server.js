@@ -4,7 +4,7 @@ import dotenv from 'dotenv';
 import { connectDB } from './config/database.js';
 import Product from './models/Product.js';
 import PricingAlgorithm from './services/PricingAlgorithm.js';
-import { seedRealProducts } from './utils/productSeeder.js';
+import { seedRealProducts, seedMockProducts } from './utils/productSeeder.js';
 import productsRouter from './routes/products.js';
 
 dotenv.config();
@@ -72,6 +72,18 @@ app.post('/api/seed/real', async (req, res) => {
 		const result = await seedRealProducts();
 		res.json(result);
 	} catch (error) {
+		res.status(500).json({ error: error.message });
+	}
+});
+
+// Seed with MOCK data
+app.post('/api/seed/mock', async (req, res) => {
+	try {
+		console.log('\nSeeding with mock data...');
+		const result = await seedMockProducts();
+		res.json(result);
+	} catch (error) {
+		console.error('Mock seed error:', error);
 		res.status(500).json({ error: error.message });
 	}
 });

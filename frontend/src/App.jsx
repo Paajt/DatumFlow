@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
 import { getProducts } from './services/api';
 import Header from './components/Header';
-import StatsCard from './components/StatsCard';
 import datumFlowLogo from './assets/images/datumflow-logo.svg';
+import StatsCard from './components/StatsCard';
+import ProductCard from './components/ProductCard';
 
 function App() {
   const [stats, setStats] = useState(null);
@@ -146,10 +147,12 @@ function App() {
                     {/* Show urgent products here */}
                     <div className='space-y-4'>
                       {urgentProducts.slice(0, 2).map((product) => (
-                        <div key={product._id} className="bg-white p-4 rounded">
-                          <p className='font-semibold'>{product.name}</p>
-                          <p className='text-sm text-gray-600'>{product.supplier}</p>
-                        </div>
+                        <ProductCard
+                          key={product._id}
+                          product={product}
+                          onOpenPriceDialog={(p) => console.log('Open price dialog:', p.name)}
+                          onViewDetails={(p) => console.log('View details:', p.name)}
+                        />
                       ))}
                     </div>
 

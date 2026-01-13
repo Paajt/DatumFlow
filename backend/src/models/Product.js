@@ -23,6 +23,16 @@ const productSchema = new mongoose.Schema(
 			required: true,
 			trim: true,
 		},
+		commodityGroup: {
+			type: String,
+			required: true,
+			trim: true,
+		},
+		weight: {
+			type: String,
+			default: 'N/A',
+			trim: true,
+		},
 		manufacturingDate: {
 			type: Date,
 			required: true,
