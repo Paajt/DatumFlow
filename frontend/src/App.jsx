@@ -3,7 +3,7 @@ import { getProducts } from './services/api';
 import Header from './components/Header';
 import datumFlowLogo from './assets/images/datumflow-logo.svg';
 import StatsCard from './components/StatsCard';
-import ProductCard from './components/ProductCard';
+import UrgentProductList from './components/UrgentProductList';
 
 function App() {
   const [stats, setStats] = useState(null);
@@ -140,26 +140,12 @@ function App() {
                 {/* Two Column Layout for Product Lists */}
                 <div className="grid grid-cols-2 gap-6">
                   {/* Left: Brådskande produkter */}
-                  <div className="bg-gray-100 rounded-lg p-4">
-                    <h3 className="text-lg font-semibold mb-4">
-                      Brådskande, åtgärder behövs (0-1 dag)
-                    </h3>
-                    {/* Show urgent products here */}
-                    <div className='space-y-4'>
-                      {urgentProducts.slice(0, 2).map((product) => (
-                        <ProductCard
-                          key={product._id}
-                          product={product}
-                          onOpenPriceDialog={(p) => console.log('Open price dialog:', p.name)}
-                          onViewDetails={(p) => console.log('View details:', p.name)}
-                        />
-                      ))}
-                    </div>
 
-                    <p className='text-sm text-gray-500 mt-4 text-center'>
-                      Sida 1 av {Math.ceil(urgentProducts.length / 2)}
-                    </p>
-                  </div>
+                  <UrgentProductList
+                    products={urgentProducts}
+                    onOpenPriceDialog={(p) => console.log('Open price dialog:', p.name)}
+                    onViewDetails={(p) => console.log('View details:', p.name)}
+                  />
 
                   {/* Right: Produkter som åtgärdas ofta */}
                   <div className="bg-purple-100 rounded-lg p-4">
