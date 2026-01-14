@@ -24,7 +24,7 @@ const UrgentProductsList = ({ products, onOpenPriceDialog, onViewDetails }) => {
     };
 
     return (
-        <div className="bg-gray-100 rounded-lg p-4">
+        <div className="bg-gray-200 rounded-lg p-4">
             <h3 className="text-lg font-semibold mb-4">
                 Brådskande, åtgärder behövs (0-1 dag)
             </h3>
@@ -39,6 +39,7 @@ const UrgentProductsList = ({ products, onOpenPriceDialog, onViewDetails }) => {
                     <div className="space-y-4">
                         {currentProducts.map((product) => (
                             <ProductCard
+                                variant='urgent'
                                 key={product._id}
                                 product={product}
                                 onOpenPriceDialog={onOpenPriceDialog}
@@ -54,8 +55,8 @@ const UrgentProductsList = ({ products, onOpenPriceDialog, onViewDetails }) => {
                                 onClick={handlePrevPage}
                                 disabled={currentPage === 1}
                                 className={`px-4 py-2 rounded font-medium ${currentPage === 1
-                                        ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                                        : 'bg-green-600 text-white hover:bg-green-700'
+                                    ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                                    : 'bg-green-700 text-white hover:bg-green-600 cursor-pointer'
                                     }`}
                             >
                                 ← Föregående
@@ -69,8 +70,8 @@ const UrgentProductsList = ({ products, onOpenPriceDialog, onViewDetails }) => {
                                 onClick={handleNextPage}
                                 disabled={currentPage === totalPages}
                                 className={`px-4 py-2 rounded font-medium ${currentPage === totalPages
-                                        ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                                        : 'bg-green-600 text-white hover:bg-green-700'
+                                    ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                                    : 'bg-green-700 text-white hover:bg-green-600 cursor-pointer'
                                     }`}
                             >
                                 Nästa →

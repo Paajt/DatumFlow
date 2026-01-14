@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import ProductCard from './ProductCard';
 
-const FrequentProductsList = ({ products, onOpenPriceDialog, onViewDetails }) => {
+const FrequentProductsList = ({ products, onViewDetails }) => {
     const [currentPage, setCurrentPage] = useState(1);
     const productsPerPage = 2;
 
@@ -22,7 +22,7 @@ const FrequentProductsList = ({ products, onOpenPriceDialog, onViewDetails }) =>
     };
 
     return (
-        <div className="bg-purple-200 rounded-lg p-4">
+        <div className="bg-gray-200 rounded-lg p-4">
             <h3 className="text-lg font-semibold mb-4">
                 Produkter som åtgärdas ofta
             </h3>
@@ -37,10 +37,12 @@ const FrequentProductsList = ({ products, onOpenPriceDialog, onViewDetails }) =>
                     <div className="space-y-4">
                         {currentProducts.map((product) => (
                             <ProductCard
+                                variant='frequent'
                                 key={product._id}
                                 product={product}
-                                onOpenPriceDialog={onOpenPriceDialog}
                                 onViewDetails={onViewDetails}
+                                onAnalyze={(p) => console.log('Analyze:', p)}
+                                onRemoveFromList={(p) => console.log('Remove:', p)}
                             />
                         ))}
                     </div>
@@ -53,7 +55,7 @@ const FrequentProductsList = ({ products, onOpenPriceDialog, onViewDetails }) =>
                                 disabled={currentPage === 1}
                                 className={`px-4 py-2 rounded font-medium ${currentPage === 1
                                     ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                                    : 'bg-purple-500 text-white hover:bg-purple-600'
+                                    : 'bg-green-700 text-white hover:bg-green-600 cursor-pointer'
                                     }`}
                             >
                                 ← Föregående
@@ -68,7 +70,7 @@ const FrequentProductsList = ({ products, onOpenPriceDialog, onViewDetails }) =>
                                 disabled={currentPage === totalPages}
                                 className={`px-4 py-2 rounded font-medium ${currentPage === totalPages
                                     ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                                    : 'bg-purple-500 text-white hover:bg-purple-600'
+                                    : 'bg-green-700 text-white hover:bg-green-600 cursor-pointer'
                                     }`}
                             >
                                 Nästa →
