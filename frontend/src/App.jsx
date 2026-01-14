@@ -5,6 +5,7 @@ import datumFlowLogo from './assets/images/datumflow-logo.svg';
 import StatsCard from './components/StatsCard';
 import UrgentProductList from './components/UrgentProductList';
 import FrequentProductsList from './components/FrequentProductList';
+import PriceAdjustmentModal from './components/PriceAdjustmentModal';
 
 function App() {
   const [stats, setStats] = useState(null);
@@ -12,6 +13,10 @@ function App() {
   const [error, setError] = useState(null);
   const [activeTab, setActiveTab] = useState('start');
   const [products, setProducts] = useState([]);
+
+  // Modal state
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState(null);
 
   useEffect(() => {
     fetchProducts();
@@ -29,6 +34,30 @@ function App() {
     } finally {
       setLoading(false);
     }
+  };
+
+  // Handle opening price dialog
+  const handleOpenPriceDialog = (product) => {
+    setSelectedProduct(product);
+    setIsModalOpen(true);
+  };
+
+  // Handle closing modal
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setSelectedProduct(null);
+  };
+
+  // Handle confirming discount
+  const handleConfirmDiscount = (product, discount, newPrice) => {
+    console.log('Discount confirmed:', {
+      product: product.name,
+      discount: discount + '%',
+      newPrice: newPrice.toFixed(2) + ' kr',
+    });
+    // TODO: Call API to update price
+    handleCloseModal();
+    // fetchProduct to refresh after update
   };
 
   if (loading) {
@@ -146,7 +175,7 @@ function App() {
 
                   <UrgentProductList
                     products={urgentProducts}
-                    onOpenPriceDialog={(p) => console.log('Open price dialog:', p.name)}
+                    onOpenPriceDialog={handleOpenPriceDialog}
                     onViewDetails={(p) => console.log('View details:', p.name)}
                   />
 
@@ -175,7 +204,13 @@ function App() {
           </div>
         </div>
       </div >
-    </div >
+      <PriceAdjustmentModal
+        product={selectedProduct}
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+        onConfirm={handleConfirmDiscount}
+      />
+    </div>
   );
 }
 

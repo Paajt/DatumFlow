@@ -45,7 +45,7 @@ const ProductCard = ({
                 <p className="text-xs text-gray-600">Art.nr: {product._id.slice(-7)}</p>
                 <p className="text-xs text-gray-600">Avd: {product.category}</p>
                 <p className="text-xs text-gray-600">Vgr: {product.commodityGroup || '999'}</p>
-                <p className="text-xs text-gray-600">Ink.pris: {product.costPrice.toFixed(2)} kr</p>
+                <p className="text-xs text-gray-600">Inpris: {product.costPrice.toFixed(2)} kr</p>
             </div>
 
             {/* Price Info */}
