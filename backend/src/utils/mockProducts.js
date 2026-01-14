@@ -6,6 +6,7 @@ export const mockProducts = [
 		supplier: 'Arla',
 		weight: '1 liter',
 		ean: '7310865000001',
+		expiryCount: 0,
 	},
 	{
 		name: 'Lättmjölk 0.5%',
@@ -13,6 +14,7 @@ export const mockProducts = [
 		supplier: 'Arla',
 		weight: '1 liter',
 		ean: '7310865000002',
+		expiryCount: 8,
 	},
 	{
 		name: 'Filmjölk Naturell',
@@ -20,6 +22,7 @@ export const mockProducts = [
 		supplier: 'Arla',
 		weight: '1 liter',
 		ean: '7310865000003',
+		expiryCount: 0,
 	},
 	{
 		name: 'Yoghurt Naturell',
@@ -27,6 +30,7 @@ export const mockProducts = [
 		supplier: 'Skånemejerier',
 		weight: '500g',
 		ean: '7310865000004',
+		expiryCount: 2,
 	},
 	{
 		name: 'Kvarg Naturell',
@@ -34,6 +38,7 @@ export const mockProducts = [
 		supplier: 'Valio',
 		weight: '500g',
 		ean: '7310865000005',
+		expiryCount: 0,
 	},
 	{
 		name: 'Grädde 36%',
@@ -41,6 +46,7 @@ export const mockProducts = [
 		supplier: 'Arla',
 		weight: '3 dl',
 		ean: '7310865000006',
+		expiryCount: 0,
 	},
 
 	// OST (600-699)
@@ -50,6 +56,7 @@ export const mockProducts = [
 		supplier: 'Arla',
 		weight: '500g',
 		ean: '7310865000007',
+		expiryCount: 0,
 	},
 	{
 		name: 'Präst 17%',
@@ -57,6 +64,7 @@ export const mockProducts = [
 		supplier: 'Primemonte',
 		weight: '500g',
 		ean: '7310865000008',
+		expiryCount: 0,
 	},
 	{
 		name: 'Färskost Original',
@@ -64,6 +72,7 @@ export const mockProducts = [
 		supplier: 'Philadelphia',
 		weight: '200g',
 		ean: '7310865000009',
+		expiryCount: 0,
 	},
 
 	// BAGERI (300-399)
@@ -73,13 +82,15 @@ export const mockProducts = [
 		supplier: 'Pågen',
 		weight: '360g',
 		ean: '7310865000010',
+		expiryCount: 0,
 	},
 	{
-		name: 'Landgång Vitt',
+		name: 'Landgång',
 		category: 'Bageri',
 		supplier: 'Pågen',
 		weight: '800g',
 		ean: '7310865000011',
+		expiryCount: 0,
 	},
 	{
 		name: 'Skogaholm Fullkorn',
@@ -87,6 +98,7 @@ export const mockProducts = [
 		supplier: 'Schulstad',
 		weight: '750g',
 		ean: '7310865000012',
+		expiryCount: 4,
 	},
 	{
 		name: 'Gifflar Vanilj',
@@ -94,6 +106,7 @@ export const mockProducts = [
 		supplier: 'Pågen',
 		weight: '300g',
 		ean: '7310865000013',
+		expiryCount: 0,
 	},
 
 	// KÖTT (700-799)
@@ -103,6 +116,7 @@ export const mockProducts = [
 		supplier: 'Scan',
 		weight: '500g',
 		ean: '7310865000014',
+		expiryCount: 0,
 	},
 	{
 		name: 'Kycklingfilé',
@@ -110,6 +124,7 @@ export const mockProducts = [
 		supplier: 'Kronfågel',
 		weight: '400g',
 		ean: '7310865000015',
+		expiryCount: 0,
 	},
 	{
 		name: 'Fläskfilé',
@@ -117,6 +132,7 @@ export const mockProducts = [
 		supplier: 'Scan',
 		weight: '400g',
 		ean: '7310865000016',
+		expiryCount: 0,
 	},
 	{
 		name: 'Kycklinglår',
@@ -124,6 +140,7 @@ export const mockProducts = [
 		supplier: 'Kronfågel',
 		weight: '500g',
 		ean: '7310865000017',
+		expiryCount: 1,
 	},
 
 	// FISK (800-899)
@@ -133,6 +150,7 @@ export const mockProducts = [
 		supplier: 'Vågga Rökeri',
 		weight: '200g',
 		ean: '7310865000018',
+		expiryCount: 6,
 	},
 	{
 		name: 'Räkor Handskalade',
@@ -140,6 +158,7 @@ export const mockProducts = [
 		supplier: 'Klädesholmen Seafood',
 		weight: '200g',
 		ean: '7310865000019',
+		expiryCount: 1,
 	},
 	{
 		name: 'Sill Matjes',
@@ -147,6 +166,7 @@ export const mockProducts = [
 		supplier: 'Abba Seafood',
 		weight: '500g',
 		ean: '7310865000020',
+		expiryCount: 0,
 	},
 
 	// FRUKT (400-499)
@@ -156,6 +176,7 @@ export const mockProducts = [
 		supplier: 'Chiquita',
 		weight: '1kg',
 		ean: '7310865000021',
+		expiryCount: 0,
 	},
 	{
 		name: 'Röda Äpplen',
@@ -163,6 +184,7 @@ export const mockProducts = [
 		supplier: 'Svensk Frukt',
 		weight: '1kg',
 		ean: '7310865000022',
+		expiryCount: 0,
 	},
 	{
 		name: 'Päron Conference i korg',
@@ -170,6 +192,7 @@ export const mockProducts = [
 		supplier: 'Svensk Frukt',
 		weight: '800g',
 		ean: '7310865000023',
+		expiryCount: 0,
 	},
 	{
 		name: 'Apelsiner i nät',
@@ -177,6 +200,7 @@ export const mockProducts = [
 		supplier: 'Sunkist',
 		weight: '1kg',
 		ean: '7310865000024',
+		expiryCount: 0,
 	},
 
 	// GRÖNSAKER (400-499)
@@ -186,6 +210,7 @@ export const mockProducts = [
 		supplier: 'Dole',
 		weight: '1 st',
 		ean: '7310865000025',
+		expiryCount: 4,
 	},
 	{
 		name: 'Tomater på Kvist',
@@ -193,6 +218,7 @@ export const mockProducts = [
 		supplier: 'Svensk Grönt',
 		weight: '500g',
 		ean: '7310865000026',
+		expiryCount: 0,
 	},
 	{
 		name: 'Gurka Klass 1',
@@ -200,6 +226,7 @@ export const mockProducts = [
 		supplier: 'Svensk Grönt',
 		weight: 'ca 350g',
 		ean: '7310865000027',
+		expiryCount: 0,
 	},
 	{
 		name: 'Paprika Röd',
@@ -207,6 +234,7 @@ export const mockProducts = [
 		supplier: 'Svensk Grönt',
 		weight: 'ca 300g',
 		ean: '7310865000028',
+		expiryCount: 0,
 	},
 	{
 		name: 'Potatis Almond i påse',
@@ -214,6 +242,7 @@ export const mockProducts = [
 		supplier: 'Svensk Potatis',
 		weight: '2kg',
 		ean: '7310865000029',
+		expiryCount: 2,
 	},
 	{
 		name: 'Gul lök i nät',
@@ -221,5 +250,6 @@ export const mockProducts = [
 		supplier: 'Svensk Grönt',
 		weight: '1kg',
 		ean: '7310865000030',
+		expiryCount: 0,
 	},
 ];

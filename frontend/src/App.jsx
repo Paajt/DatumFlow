@@ -4,6 +4,7 @@ import Header from './components/Header';
 import datumFlowLogo from './assets/images/datumflow-logo.svg';
 import StatsCard from './components/StatsCard';
 import UrgentProductList from './components/UrgentProductList';
+import FrequentProductsList from './components/FrequentProductList';
 
 function App() {
   const [stats, setStats] = useState(null);
@@ -57,6 +58,8 @@ function App() {
   }
 
   const urgentProducts = products.filter((p) => p.pricing.urgencyLevel === 'red');
+
+  const frequentProducts = products.filter((p) => p.expiryCount > 0).sort((a, b) => b.expiryCount - a.expiryCount);
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -148,15 +151,12 @@ function App() {
                   />
 
                   {/* Right: Produkter som åtgärdas ofta */}
-                  <div className="bg-purple-100 rounded-lg p-4">
-                    <h3 className="text-lg font-semibold mb-4">
-                      Produkter som åtgärdas ofta
-                    </h3>
-                    <p className="text-gray-500">Produkter kommer här...</p>
-                    <p className="text-sm text-gray-500 mt-4 text-center">
-                      Sida 1 av 1
-                    </p>
-                  </div>
+                  <FrequentProductsList
+                    products={frequentProducts}
+                    onOpenPriceDialog={(p) => console.log('Open price dialog:', p.name)}
+                    onViewDetails={(p) => console.log('View details:', p.name)}
+                  />
+
                 </div>
               </>
             )}
