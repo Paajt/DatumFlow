@@ -15,23 +15,8 @@ router.get('/', async (req, res) => {
 			const pricingDetails = PricingAlgorithm.getPricingDetails(product);
 
 			return {
-				_id: product._id,
-				name: product.name,
-				supplier: product.supplier,
-				ean: product.ean,
-				category: product.category,
-				manufacturingDate: product.manufacturingDate,
-				expiryDate: product.expiryDate,
-				originalPrice: product.originalPrice,
-				currentPrice: product.currentPrice,
-				costPrice: product.costPrice,
-				store: product.store,
-				priceStatus: product.priceStatus,
-				handledAt: product.handledAt,
-				handledBy: product.handledBy,
-				expiryCount: product.expiryCount,
-				createdAt: product.createdAt,
-				updatedAt: product.updatedAt,
+				// Take all fields from DB
+				...product.toObject(),
 				// Pricing calculations
 				pricing: pricingDetails,
 			};
