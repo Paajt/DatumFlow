@@ -50,12 +50,25 @@ const ProductCard = ({
 
             {/* Price Info */}
             <div className="mb-3">
-                <p className="text-sm">
-                    <span className="font-semibold">Ord.pris:</span> {product.originalPrice.toFixed(2)} kr
-                </p>
-                <p className="text-sm text-red-600 font-bold">
-                    Prisförslag: {product.pricing.suggestedPrice.toFixed(2)} kr (-{product.pricing.discountPercentage}%)
-                </p>
+                {variant === 'urgent' ? (
+                    <>
+                        <p className="text-sm">
+                            <span className="font-semibold">Ord.pris:</span> {product.originalPrice.toFixed(2)} kr
+                        </p>
+                        <p className="text-sm text-red-600 font-bold">
+                            Prisförslag: {product.pricing.suggestedPrice.toFixed(2)} kr (-{product.pricing.discountPercentage}%)
+                        </p>
+                    </>
+                ) : (
+                    <>
+                        <p className="text-sm">
+                            <span className="font-semibold">Ord.pris:</span> {product.originalPrice.toFixed(2)} kr
+                        </p>
+                        <p className="text-sm">
+                            <span className="font-semibold text-red-600">Senast ändrad: {new Date().toLocaleDateString('sv-SE')}</span>
+                        </p>
+                    </>
+                )}
             </div>
 
             {/* Action Buttons, different variants */}

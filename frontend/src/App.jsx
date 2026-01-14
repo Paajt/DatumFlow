@@ -85,7 +85,7 @@ function App() {
           <div className="border-b-2 border-gray-200 flex justify-center">
             <button
               onClick={() => setActiveTab('start')}
-              className={`px-8 py-4 font-semibold ${activeTab === 'start'
+              className={`px-8 py-4 font-semibold cursor-pointer hover:text-black ${activeTab === 'start'
                 ? 'border-b-4 border-black'
                 : 'text-gray-600'
                 }`}
@@ -94,7 +94,7 @@ function App() {
             </button>
             <button
               onClick={() => setActiveTab('produkter')}
-              className={`px-8 py-4 font-semibold ${activeTab === 'produkter'
+              className={`px-8 py-4 font-semibold cursor-pointer hover:text-black ${activeTab === 'produkter'
                 ? 'border-b-4 border-black'
                 : 'text-gray-600'
                 }`}
@@ -103,7 +103,7 @@ function App() {
             </button>
             <button
               onClick={() => setActiveTab('statistik')}
-              className={`px-8 py-4 font-semibold ${activeTab === 'statistik'
+              className={`px-8 py-4 font-semibold cursor-pointer hover:text-black ${activeTab === 'statistik'
                 ? 'border-b-4 border-black'
                 : 'text-gray-600'
                 }`}
