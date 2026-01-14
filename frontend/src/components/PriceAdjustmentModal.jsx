@@ -292,7 +292,7 @@ const PriceAdjustmentModal = ({ product, isOpen, onClose, onConfirm }) => {
                         // Confirmation
                         <div className="bg-gray-50 rounded-lg p-6">
                             {/* Product Info */}
-                            <div className="mb-4 pb-4 border-b border-black">
+                            <div className="mb-2 pb-4">
                                 <h2 className="text-2xl font-bold text-gray-900 border-b mb-6 pb-4">
                                     Bekräftelse
                                 </h2>
@@ -341,7 +341,6 @@ const PriceAdjustmentModal = ({ product, isOpen, onClose, onConfirm }) => {
                                     </div>
                                 </div>
                             </div>
-
                             {/* Warning Message */}
                             <div className="mb-6">
                                 <div className="bg-blue-50 border-l-4 border-blue-500 p-4 mb-6">
@@ -362,7 +361,7 @@ const PriceAdjustmentModal = ({ product, isOpen, onClose, onConfirm }) => {
                                         <span className="text-gray-600">Rabatt:</span>
                                         <span className="text-red-600 font-semibold">-{savings.toFixed(2)} kr (-{actualDiscount.toFixed(1)}%)</span>
                                     </div>
-                                    <div className="flex justify-between pt-2 border-t border-gray-200">
+                                    <div className="flex justify-between pt-2 border-t border-black">
                                         <span className="font-semibold text-gray-900">Nytt pris:</span>
                                         <span className="font-bold text-xl text-green-700">{newPrice.toFixed(2)} kr</span>
                                     </div>
