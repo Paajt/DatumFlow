@@ -1,14 +1,14 @@
 import { useState, useEffect } from 'react';
-import { getProducts } from './services/api';
+import { getProducts, updateProductPrice } from './services/api';
 import Header from './components/Header';
 import datumFlowLogo from './assets/images/datumflow-logo.svg';
 import StatsCard from './components/StatsCard';
 import UrgentProductList from './components/UrgentProductList';
 import FrequentProductsList from './components/FrequentProductList';
 import PriceAdjustmentModal from './components/PriceAdjustmentModal';
+import Toast from './components/Toast';
 
 function App() {
-  const [stats, setStats] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [activeTab, setActiveTab] = useState('start');
@@ -17,6 +17,9 @@ function App() {
   // Modal state
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
+
+  // Toast state
+  const [toast, setToast] = useState(null);
 
   useEffect(() => {
     fetchProducts();
@@ -27,13 +30,22 @@ function App() {
       setLoading(true);
       setError(null);
       const data = await getProducts();
-      setStats(data.stats);
       setProducts(data.products)
     } catch (error) {
       setError('Kunde inte hämta produkter: ' + error.message);
     } finally {
       setLoading(false);
     }
+  };
+
+  // Show how many number of products in each StatsCard
+  const calculateStats = (products) => {
+    return {
+      red: products.filter(p => p.pricing.urgencyLevel === 'red' && p.priceStatus === 'pending').length,
+      orange: products.filter(p => p.pricing.urgencyLevel === 'orange' && p.priceStatus === 'pending').length,
+      yellow: products.filter(p => p.pricing.urgencyLevel === 'yellow' && p.priceStatus === 'pending').length,
+      green: products.filter(p => p.pricing.urgencyLevel === 'green' && p.priceStatus === 'pending').length,
+    };
   };
 
   // Handle opening price dialog
@@ -49,15 +61,41 @@ function App() {
   };
 
   // Handle confirming discount
-  const handleConfirmDiscount = (product, discount, newPrice) => {
-    console.log('Discount confirmed:', {
-      product: product.name,
-      discount: discount + '%',
-      newPrice: newPrice.toFixed(2) + ' kr',
-    });
-    // TODO: Call API to update price
-    handleCloseModal();
-    // fetchProduct to refresh after update
+  const handleConfirmDiscount = async (product, discount, newPrice) => {
+    try {
+      console.log('Updating product price:', {
+        product: product.name,
+        discount: discount.toFixed(0) + '%',
+        newPrice: newPrice.toFixed(2) + ' kr',
+      });
+
+      // Call API to update price
+      await updateProductPrice(product._id, newPrice, 'Butikspersonal');
+
+      // Show success toast
+      setToast({
+        message: `Pris uppdaterat för ${product.name}!`,
+        type: 'success',
+      });
+
+      // Close modal
+      handleCloseModal();
+
+      // Refresh products list
+      await fetchProducts();
+
+    } catch (error) {
+      console.error('Error updating price:', error);
+      setToast({
+        message: 'Kunde inte uppdatera pris. Försök igen.',
+        type: 'error',
+      });
+    }
+  };
+
+  // Close toast
+  const handleCloseToast = () => {
+    setToast(null);
   };
 
   if (loading) {
@@ -86,9 +124,11 @@ function App() {
     );
   }
 
-  const urgentProducts = products.filter((p) => p.pricing.urgencyLevel === 'red');
+  const urgentProducts = products.filter((p) => p.pricing.urgencyLevel === 'red' && p.priceStatus === 'pending');
 
   const frequentProducts = products.filter((p) => p.expiryCount > 0).sort((a, b) => b.expiryCount - a.expiryCount);
+
+  const currentStats = calculateStats(products);
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -149,22 +189,22 @@ function App() {
                 <div className="grid grid-cols-4 gap-4 mb-8">
                   <StatsCard
                     urgency="red"
-                    count={stats?.red || 0}
+                    count={currentStats.red}
                     label="Brådskande"
                   />
                   <StatsCard
                     urgency="orange"
-                    count={stats?.orange || 0}
+                    count={currentStats.orange}
                     label="Varning"
                   />
                   <StatsCard
                     urgency="yellow"
-                    count={stats?.yellow || 0}
+                    count={currentStats.yellow}
                     label="Snart"
                   />
                   <StatsCard
                     urgency="green"
-                    count={stats?.green || 0}
+                    count={currentStats.green}
                     label="OK"
                   />
                 </div>
@@ -210,6 +250,13 @@ function App() {
         onClose={handleCloseModal}
         onConfirm={handleConfirmDiscount}
       />
+      {toast && (
+        <Toast
+          message={toast.message}
+          type={toast.type}
+          onClose={handleCloseToast}
+        />
+      )}
     </div>
   );
 }

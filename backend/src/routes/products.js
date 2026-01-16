@@ -67,4 +67,72 @@ router.get('/', async (req, res) => {
 	}
 });
 
+// Update product price and mark as handled
+router.put('/:id/price', async (req, res) => {
+	try {
+		const { id } = req.params;
+		const { newPrice, staffMember } = req.body;
+
+		// Validate input
+		if (!newPrice || newPrice <= 0) {
+			return res.status(400).json({
+				success: false,
+				error: 'Valid newPrice is required',
+			});
+		}
+
+		// Find product
+		const product = await Product.findById(id);
+		if (!product) {
+			return res.status(404).json({
+				success: false,
+				error: 'Product not found',
+			});
+		}
+
+		// Validate price against cost price
+		const validation = PricingAlgorithm.validatePrice(
+			newPrice,
+			product.costPrice
+		);
+
+		if (!validation.valid) {
+			return res.status(400).json({
+				success: false,
+				error: validation.warning,
+			});
+		}
+
+		// Log warning if selling below cost
+		if (validation.warning) {
+			console.log('Warning', validation.warning);
+		}
+
+		// Update price and mark as handled
+		product.currentPrice = parseFloat(newPrice);
+		product.priceStatus = 'handled';
+		product.handledAt = new Date();
+		product.handledBy = staffMember || 'Staff';
+
+		// Increment expiry count (this product was about to expire)
+		product.expiryCount += 1;
+
+		await product.save();
+
+		// Return success with updated product
+		res.json({
+			success: true,
+			message: 'Product price updated successfully',
+			product: product.toObject(),
+			warning: validation.warning,
+		});
+	} catch (error) {
+		console.error('Error updating product price:', error);
+		res.status(500).json({
+			success: false,
+			error: error.message,
+		});
+	}
+});
+
 export default router;
