@@ -1,4 +1,4 @@
-const ProductTableRow = ({ product, onOpenPriceDialog }) => {
+const ProductTableRow = ({ product, onOpenPriceDialog, onResetPrice }) => {
     // Get status color
     const getStatusColor = (urgencyLevel) => {
         const colors = {
@@ -67,16 +67,24 @@ const ProductTableRow = ({ product, onOpenPriceDialog }) => {
             <td className="px-4 py-4">
                 {product.priceStatus === 'handled' ? (
                     // Handled product - show discounted price
-                    <div className="space-y-1">
+                    <div className="space-y-2">
                         <div className="text-sm text-gray-600">
                             Rabatterat pris: <span className="font-bold text-red-600">{product.currentPrice.toFixed(2)} kr</span>
                         </div>
-                        <button
-                            disabled
-                            className="w-full px-3 py-2 bg-gray-400 text-white rounded font-medium cursor-not-allowed"
-                        >
-                            Öppna prisförslag
-                        </button>
+                        <div className="grid grid-cols-2 gap-2">
+                            <button
+                                onClick={() => onOpenPriceDialog(product)}
+                                className="px-3 py-2 bg-blue-600 text-white rounded font-medium hover:bg-blue-700 cursor-pointer text-sm"
+                            >
+                                Ändra rabatt
+                            </button>
+                            <button
+                                onClick={() => onResetPrice(product)}
+                                className="px-3 py-2 bg-gray-600 text-white rounded font-medium hover:bg-gray-700 cursor-pointer text-sm"
+                            >
+                                Återställ pris
+                            </button>
+                        </div>
                     </div>
                 ) : (
                     // Pending product - show suggestion

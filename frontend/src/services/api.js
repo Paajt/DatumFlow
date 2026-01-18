@@ -15,6 +15,7 @@ export const getProducts = async () => {
 	return response.data;
 };
 
+// Update price
 export const updateProductPrice = async (
 	productId,
 	newPrice,
@@ -22,6 +23,17 @@ export const updateProductPrice = async (
 ) => {
 	const response = await api.put(`/products/${productId}/price`, {
 		newPrice,
+		staffMember,
+	});
+	return response.data;
+};
+
+// Reset price
+export const resetProductPrice = async (
+	productId,
+	staffMember = 'Butikspersonal'
+) => {
+	const response = await api.put(`/products/${productId}/reset-price`, {
 		staffMember,
 	});
 	return response.data;

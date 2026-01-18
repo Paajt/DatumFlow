@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { getProducts, updateProductPrice } from './services/api';
+import { getProducts, updateProductPrice, resetProductPrice } from './services/api';
 import Header from './components/Header';
 import datumFlowLogo from './assets/images/datumflow-logo.svg';
 import StatsCard from './components/StatsCard';
@@ -94,6 +94,27 @@ function App() {
     }
   };
 
+  // Handle resetting product price to original
+  const handleResetPrice = async (product) => {
+    try {
+      await resetProductPrice(product._id, 'Butikspersonal');
+
+      setToast({
+        message: `Pris återställt för ${product.name}!`,
+        type: 'info',
+      });
+
+      await fetchProducts();
+
+    } catch (error) {
+      console.error('Error resetting price:', error);
+      setToast({
+        message: 'Kunde inte återställa pris. Försök igen',
+        type: 'error',
+      });
+    }
+  };
+
   // Close toast
   const handleCloseToast = () => {
     setToast(null);
@@ -132,7 +153,7 @@ function App() {
   const currentStats = calculateStats(products);
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen min-w-[1600px] bg-gray-50">
       {/* Header - ICA Style */}
       <Header />
 
@@ -235,6 +256,7 @@ function App() {
               <ProductsTab
                 products={products}
                 onOpenPriceDialog={handleOpenPriceDialog}
+                onResetPrice={handleResetPrice}
               />
             )}
 

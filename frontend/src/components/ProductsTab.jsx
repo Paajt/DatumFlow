@@ -1,7 +1,7 @@
 import { useState, useMemo } from 'react';
 import ProductTable from './ProductTable';
 
-const ProductsTab = ({ products, onOpenPriceDialog }) => {
+const ProductsTab = ({ products, onOpenPriceDialog, onResetPrice }) => {
     const [searchQuery, setSearchQuery] = useState('');
     const [statusFilter, setStatusFilter] = useState('all'); // all, red, orange, yellow, green
     const [sortBy, setSortBy] = useState('expiryDate'); // expiryDate, price, category
@@ -191,6 +191,7 @@ const ProductsTab = ({ products, onOpenPriceDialog }) => {
             <ProductTable
                 products={filteredProducts}
                 onOpenPriceDialog={onOpenPriceDialog}
+                onResetPrice={onResetPrice}
             />
         </div>
     );

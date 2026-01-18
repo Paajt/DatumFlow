@@ -135,4 +135,40 @@ router.put('/:id/price', async (req, res) => {
 	}
 });
 
+// Reset product price to original and mark as pending
+router.put('/:id/reset-price', async (req, res) => {
+	try {
+		const { id } = req.params;
+		const { staffMember } = req.body;
+
+		//Find product
+		const product = await Product.findById(id);
+		if (!product) {
+			return res.status(404).json({
+				success: false,
+				error: 'Product not found',
+			});
+		}
+
+		product.currentPrice = product.originalPrice;
+		product.priceStatus = 'pending';
+		product.handledAt = null;
+		product.handledBy = null;
+
+		await product.save();
+
+		res.json({
+			success: true,
+			message: 'Product price reset to original price',
+			product: product.toObject(),
+		});
+	} catch (error) {
+		console.error('Error resetting product price:', error);
+		res.status(500).json({
+			success: false,
+			error: error.message,
+		});
+	}
+});
+
 export default router;

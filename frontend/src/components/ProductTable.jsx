@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import ProductTableRow from './ProductTableRow';
 
-const ProductTable = ({ products, onOpenPriceDialog }) => {
+const ProductTable = ({ products, onOpenPriceDialog, onResetPrice }) => {
     const [currentPage, setCurrentPage] = useState(1);
     const productsPerPage = 10;
 
@@ -59,6 +59,7 @@ const ProductTable = ({ products, onOpenPriceDialog }) => {
                                     key={product._id}
                                     product={product}
                                     onOpenPriceDialog={onOpenPriceDialog}
+                                    onResetPrice={onResetPrice}
                                 />
                             ))
                         )}
