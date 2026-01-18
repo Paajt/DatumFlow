@@ -153,7 +153,7 @@ function App() {
   const currentStats = calculateStats(products);
 
   return (
-    <div className="min-h-screen min-w-[1600px] bg-gray-50">
+    <div className="min-h-screen bg-gray-50">
       {/* Header - ICA Style */}
       <Header />
 
