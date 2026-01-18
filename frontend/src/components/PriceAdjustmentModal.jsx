@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-const PriceAdjustmentModal = ({ product, isOpen, onClose, onConfirm }) => {
+const PriceAdjustmentModal = ({ product, isOpen, onClose, onConfirm, mode = 'adjust' }) => {
     const [customDiscount, setCustomDiscount] = useState(
         product?.pricing?.discountPercentage || 0
     );
@@ -10,11 +10,16 @@ const PriceAdjustmentModal = ({ product, isOpen, onClose, onConfirm }) => {
     // Reset state when modal opens or product changes
     useEffect(() => {
         if (isOpen && product) {
-            setCustomDiscount(0) // Start with no discount selected
-            setCustomPrice('');
-            setShowConfirmation(false);
+            if (mode === 'reset') {
+                // Go directly to confirmation
+                setShowConfirmation(true);
+            } else {
+                setCustomDiscount(0) // Start with no discount selected
+                setCustomPrice('');
+                setShowConfirmation(false);
+            }
         }
-    }, [isOpen, product]);
+    }, [isOpen, product, mode]);
 
     if (!isOpen || !product) return null;
 
@@ -29,13 +34,18 @@ const PriceAdjustmentModal = ({ product, isOpen, onClose, onConfirm }) => {
         return Math.max(0, Math.min(90, discount)); // Clamp between 0-90%
     };
 
-    const newPrice = customPrice
-        ? parseFloat(customPrice)
-        : calculateNewPrice(customDiscount);
+    // For reset mode, use original price
+    const newPrice = mode === 'reset'
+        ? product.originalPrice
+        : customPrice
+            ? parseFloat(customPrice)
+            : calculateNewPrice(customDiscount);
 
-    const actualDiscount = customPrice
-        ? calculateDiscountFromPrice(parseFloat(customPrice))
-        : customDiscount;
+    const actualDiscount = mode === 'reset'
+        ? 0
+        : customPrice
+            ? calculateDiscountFromPrice(parseFloat(customPrice))
+            : customDiscount;
 
     const savings = product.originalPrice - newPrice;
 
@@ -95,7 +105,7 @@ const PriceAdjustmentModal = ({ product, isOpen, onClose, onConfirm }) => {
             <div className="fixed inset-0 flex items-center justify-center z-50 p-4">
                 <div className="bg-white rounded-lg shadow-2xl max-w-2xl w-full p-6">
 
-                    {!showConfirmation ? (
+                    {!showConfirmation && mode === 'adjust' ? (
                         // Price Adjustment
                         <>
                             {/* Header */}
@@ -358,22 +368,47 @@ const PriceAdjustmentModal = ({ product, isOpen, onClose, onConfirm }) => {
                                     </p>
 
                                     <p className="text-gray-800 mb-3">
-                                        Genom att fortsätta kommer <span className="font-semibold">{product.name}</span> få en rabatt på <span className="font-bold text-red-700">-{actualDiscount.toFixed(1)}%</span>.
+                                        {mode === 'reset' ? (
+                                            <>
+                                                Genom att fortsätta kommer <span className="font-semibold">{product.name}</span> återställas till ordinarie pris <span className="font-bold text-black">{product.originalPrice.toFixed(2)} kr</span>.
+                                            </>
+                                        ) : (
+                                            <>
+                                                Genom att fortsätta kommer <span className="font-semibold">{product.name}</span> få en rabatt på <span className="font-bold text-red-700">-{actualDiscount.toFixed(1)}%</span>.
+                                            </>
+                                        )}
                                     </p>
                                 </div>
                                 <div className="bg-white rounded-lg p-4 space-y-2">
-                                    <div className="flex justify-between">
-                                        <span className="text-gray-600">Ordinarie pris:</span>
-                                        <span className="line-through text-gray-500">{product.originalPrice.toFixed(2)} kr</span>
-                                    </div>
-                                    <div className="flex justify-between">
-                                        <span className="text-gray-600">Rabatt:</span>
-                                        <span className="text-red-600 font-semibold">-{savings.toFixed(2)} kr (-{actualDiscount.toFixed(1)}%)</span>
-                                    </div>
-                                    <div className="flex justify-between pt-2 border-t border-black">
-                                        <span className="font-semibold text-gray-900">Nytt pris:</span>
-                                        <span className="font-bold text-xl text-green-700">{newPrice.toFixed(2)} kr</span>
-                                    </div>
+                                    {mode === 'reset' ? (
+                                        // Reset mode - show current discounted price vs original
+                                        <>
+                                            <div className="flex justify-between">
+                                                <span className="text-gray-600">Nuvarande pris:</span>
+                                                <span className="line-through text-red-700">{product.currentPrice.toFixed(2)} kr</span>
+                                            </div>
+                                            <div className="flex justify-between pt-2 border-t border-black">
+                                                <span className="font-semibold text-gray-900">Ordinarie pris:</span>
+                                                <span className="font-bold text-xl text-black-700">{product.originalPrice.toFixed(2)} kr</span>
+                                            </div>
+                                        </>
+                                    ) : (
+                                        // Adjust mode - show discount calculation
+                                        <>
+                                            <div className="flex justify-between">
+                                                <span className="text-gray-600">Ordinarie pris:</span>
+                                                <span className="line-through text-gray-500">{product.originalPrice.toFixed(2)} kr</span>
+                                            </div>
+                                            <div className="flex justify-between">
+                                                <span className="text-gray-600">Rabatt:</span>
+                                                <span className="text-red-600 font-semibold">-{savings.toFixed(2)} kr (-{actualDiscount.toFixed(1)}%)</span>
+                                            </div>
+                                            <div className="flex justify-between pt-2 border-t border-black">
+                                                <span className="font-semibold text-gray-900">Nytt pris:</span>
+                                                <span className="font-bold text-xl text-green-700">{newPrice.toFixed(2)} kr</span>
+                                            </div>
+                                        </>
+                                    )}
                                 </div>
                             </div>
 
@@ -384,12 +419,22 @@ const PriceAdjustmentModal = ({ product, isOpen, onClose, onConfirm }) => {
 
                             {/* Action Buttons */}
                             <div className="flex gap-4">
-                                <button
-                                    onClick={handleBack}
-                                    className="flex-1 bg-white border-2 border-gray-400 text-gray-700 py-3 px-6 rounded-lg hover:bg-gray-300 font-semibold transition cursor-pointer"
-                                >
-                                    Tillbaka
-                                </button>
+                                {mode === 'adjust' && (
+                                    <button
+                                        onClick={handleBack}
+                                        className="flex-1 bg-white border-2 border-gray-400 text-gray-700 py-3 px-6 rounded-lg hover:bg-gray-300 font-semibold transition cursor-pointer"
+                                    >
+                                        Tillbaka
+                                    </button>
+                                )}
+                                {mode === 'reset' && (
+                                    <button
+                                        onClick={handleCancel}
+                                        className="flex-1 bg-white border-2 border-gray-400 text-gray-700 py-3 px-6 rounded-lg hover:bg-gray-300 font-semibold transition cursor-pointer"
+                                    >
+                                        Avbryt
+                                    </button>
+                                )}
                                 <button
                                     onClick={handleFinalConfirm}
                                     className="flex-1 bg-green-700 text-white py-3 px-6 rounded-lg hover:bg-green-600 font-semibold transition shadow-md cursor-pointer"

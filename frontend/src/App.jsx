@@ -18,6 +18,7 @@ function App() {
   // Modal state
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
+  const [modalMode, setModalMode] = useState('adjust');
 
   // Toast state
   const [toast, setToast] = useState(null);
@@ -53,6 +54,7 @@ function App() {
   const handleOpenPriceDialog = (product) => {
     setSelectedProduct(product);
     setIsModalOpen(true);
+    setModalMode('adjust');
   };
 
   // Handle closing modal
@@ -64,20 +66,32 @@ function App() {
   // Handle confirming discount
   const handleConfirmDiscount = async (product, discount, newPrice) => {
     try {
-      console.log('Updating product price:', {
-        product: product.name,
-        discount: discount.toFixed(0) + '%',
-        newPrice: newPrice.toFixed(2) + ' kr',
-      });
+      if (modalMode === 'reset') {
+        // Reset price to original
+        await resetProductPrice(product._id, 'Butikspersonal');
 
-      // Call API to update price
-      await updateProductPrice(product._id, newPrice, 'Butikspersonal');
+        setToast({
+          message: `Pris återställt för ${product.name}!`,
+          type: 'info',
+        });
 
-      // Show success toast
-      setToast({
-        message: `Pris uppdaterat för ${product.name}!`,
-        type: 'success',
-      });
+      } else {
+        // Adjust price
+        console.log('Updating product price:', {
+          product: product.name,
+          discount: discount.toFixed(0) + '%',
+          newPrice: newPrice.toFixed(2) + ' kr',
+        });
+
+        // Call API to update price
+        await updateProductPrice(product._id, newPrice, 'Butikspersonal');
+
+        // Show success toast
+        setToast({
+          message: `Pris uppdaterat för ${product.name}!`,
+          type: 'success',
+        });
+      }
 
       // Close modal
       handleCloseModal();
@@ -95,24 +109,11 @@ function App() {
   };
 
   // Handle resetting product price to original
-  const handleResetPrice = async (product) => {
-    try {
-      await resetProductPrice(product._id, 'Butikspersonal');
-
-      setToast({
-        message: `Pris återställt för ${product.name}!`,
-        type: 'info',
-      });
-
-      await fetchProducts();
-
-    } catch (error) {
-      console.error('Error resetting price:', error);
-      setToast({
-        message: 'Kunde inte återställa pris. Försök igen',
-        type: 'error',
-      });
-    }
+  const handleResetPrice = (product) => {
+    // Open modal in reset mode for confirmation
+    setSelectedProduct(product);
+    setModalMode('reset');
+    setIsModalOpen(true);
   };
 
   // Close toast
@@ -273,6 +274,7 @@ function App() {
         isOpen={isModalOpen}
         onClose={handleCloseModal}
         onConfirm={handleConfirmDiscount}
+        mode={modalMode}
       />
       {toast && (
         <Toast
