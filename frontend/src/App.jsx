@@ -7,6 +7,7 @@ import UrgentProductList from './components/UrgentProductList';
 import FrequentProductsList from './components/FrequentProductList';
 import PriceAdjustmentModal from './components/PriceAdjustmentModal';
 import Toast from './components/Toast';
+import ProductsTab from './components/ProductsTab';
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -231,9 +232,10 @@ function App() {
             )}
 
             {activeTab === 'produkter' && (
-              <div className="text-center py-12">
-                <p className="text-gray-500">Produktlista kommer här...</p>
-              </div>
+              <ProductsTab
+                products={products}
+                onOpenPriceDialog={handleOpenPriceDialog}
+              />
             )}
 
             {activeTab === 'statistik' && (
