@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const PriceAdjustmentModal = ({ product, isOpen, onClose, onConfirm }) => {
     const [customDiscount, setCustomDiscount] = useState(
@@ -6,6 +6,15 @@ const PriceAdjustmentModal = ({ product, isOpen, onClose, onConfirm }) => {
     );
     const [customPrice, setCustomPrice] = useState('');
     const [showConfirmation, setShowConfirmation] = useState(false);
+
+    // Reset state when modal opens or product changes
+    useEffect(() => {
+        if (isOpen && product) {
+            setCustomDiscount(0) // Start with no discount selected
+            setCustomPrice('');
+            setShowConfirmation(false);
+        }
+    }, [isOpen, product]);
 
     if (!isOpen || !product) return null;
 
@@ -57,14 +66,14 @@ const PriceAdjustmentModal = ({ product, isOpen, onClose, onConfirm }) => {
     const handleFinalConfirm = () => {
         onConfirm(product, actualDiscount, newPrice);
         setShowConfirmation(false);
-        setCustomDiscount(product.pricing.discountPercentage);
+        setCustomDiscount(0);
         setCustomPrice('');
     };
 
     // Handle cancel
     const handleCancel = () => {
         setShowConfirmation(false);
-        setCustomDiscount(product.pricing.discountPercentage);
+        setCustomDiscount(0);
         setCustomPrice('');
         onClose();
     };
@@ -284,7 +293,7 @@ const PriceAdjustmentModal = ({ product, isOpen, onClose, onConfirm }) => {
                                     onClick={handleApplyDiscount}
                                     className="flex-1 bg-green-700 text-white py-3 px-6 rounded-lg hover:bg-green-600 font-semibold transition shadow-md cursor-pointer"
                                 >
-                                    Godkänn prisförslag
+                                    Godkänn nytt pris
                                 </button>
                             </div>
                         </>
