@@ -10,7 +10,10 @@
 		"dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
 		"dev:backend": "cd backend && npm run dev",
 		"dev:frontend": "cd frontend && npm run dev",
-		"setup": "npm install && cd backend && npm install && cd ../frontend && npm install"
+		"setup": "npm install && cd backend && npm install && cd ../frontend && npm install",
+		"seed": "cd backend && npm run seed",
+		"seed:mock": "cd backend && npm run seed:mock",
+		"seed:real": "cd backend && npm run seed:real"
 	},
 	"repository": {
 		"type": "git",
