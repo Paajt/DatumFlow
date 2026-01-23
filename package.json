@@ -13,7 +13,8 @@
 		"setup": "npm install && cd backend && npm install && cd ../frontend && npm install",
 		"seed": "cd backend && npm run seed",
 		"seed:mock": "cd backend && npm run seed:mock",
-		"seed:real": "cd backend && npm run seed:real"
+		"seed:real": "cd backend && npm run seed:real",
+		"test": "cd backend && npm test"
 	},
 	"repository": {
 		"type": "git",
