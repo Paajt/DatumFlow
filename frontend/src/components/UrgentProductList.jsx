@@ -44,6 +44,7 @@ const UrgentProductsList = ({ products, onOpenPriceDialog, onViewDetails }) => {
                                 product={product}
                                 onOpenPriceDialog={onOpenPriceDialog}
                                 onViewDetails={onViewDetails}
+                                onMarkAsHandled={(p) => console.log('Marked as handled:', p)}
                             />
                         ))}
                     </div>

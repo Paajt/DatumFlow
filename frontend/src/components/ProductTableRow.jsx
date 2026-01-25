@@ -74,13 +74,13 @@ const ProductTableRow = ({ product, onOpenPriceDialog, onResetPrice }) => {
                         <div className="grid grid-cols-2 gap-2">
                             <button
                                 onClick={() => onOpenPriceDialog(product)}
-                                className="px-3 py-2 bg-blue-600 text-white rounded font-medium hover:bg-blue-700 cursor-pointer text-sm"
+                                className="px-1 py-2 bg-blue-600 text-white rounded font-medium hover:bg-blue-700 cursor-pointer text-sm"
                             >
                                 Ändra rabatt
                             </button>
                             <button
                                 onClick={() => onResetPrice(product)}
-                                className="px-3 py-2 bg-gray-600 text-white rounded font-medium hover:bg-gray-700 cursor-pointer text-sm"
+                                className="px-1 py-2 bg-gray-600 text-white rounded font-medium hover:bg-gray-700 cursor-pointer text-sm"
                             >
                                 Återställ pris
                             </button>
