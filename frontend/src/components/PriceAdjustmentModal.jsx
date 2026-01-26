@@ -31,7 +31,7 @@ const PriceAdjustmentModal = ({ product, isOpen, onClose, onConfirm, mode = 'adj
     // Calculate discount based on custom price
     const calculateDiscountFromPrice = (price) => {
         const discount = ((product.originalPrice - price) / product.originalPrice) * 100;
-        return Math.max(0, Math.min(90, discount)); // Clamp between 0-90%
+        return Math.max(0, Math.min(100, discount));
     };
 
     // For reset mode, use original price
@@ -276,7 +276,7 @@ const PriceAdjustmentModal = ({ product, isOpen, onClose, onConfirm, mode = 'adj
                                                 -{savings.toFixed(2)} kr
                                             </div>
                                             <div className="text-sm text-red-600">
-                                                (-{actualDiscount.toFixed(1)}%)
+                                                (-{actualDiscount.toFixed(2)}%)
                                             </div>
                                         </div>
                                     </div>
@@ -374,7 +374,7 @@ const PriceAdjustmentModal = ({ product, isOpen, onClose, onConfirm, mode = 'adj
                                             </>
                                         ) : (
                                             <>
-                                                Genom att fortsätta kommer <span className="font-semibold">{product.name}</span> få en rabatt på <span className="font-bold text-red-700">-{actualDiscount.toFixed(1)}%</span>.
+                                                Genom att fortsätta kommer <span className="font-semibold">{product.name}</span> få en rabatt på <span className="font-bold text-red-700">-{actualDiscount.toFixed(2)}%</span>.
                                             </>
                                         )}
                                     </p>
@@ -401,7 +401,7 @@ const PriceAdjustmentModal = ({ product, isOpen, onClose, onConfirm, mode = 'adj
                                             </div>
                                             <div className="flex justify-between">
                                                 <span className="text-gray-600">Rabatt:</span>
-                                                <span className="text-red-600 font-semibold">-{savings.toFixed(2)} kr (-{actualDiscount.toFixed(1)}%)</span>
+                                                <span className="text-red-600 font-semibold">-{savings.toFixed(2)} kr (-{actualDiscount.toFixed(2)}%)</span>
                                             </div>
                                             <div className="flex justify-between pt-2 border-t border-black">
                                                 <span className="font-semibold text-gray-900">Nytt pris:</span>
